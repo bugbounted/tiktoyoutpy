@@ -24,9 +24,7 @@ with sync_playwright() as p:
             f.write(chunk)
             
 
-with sync_playwright() as t:
-    browser2 = t.chromium.launch()
-    page2 = browser2.newPage()
+    page2 = browser.newPage()
 
     # Log in to YouTube using environment variables
     page2.goto('https://www.youtube.com/signin', timeout = 30000)
