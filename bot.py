@@ -26,18 +26,18 @@ with sync_playwright() as p:
 
 with sync_playwright() as t:
     browser2 = t.chromium.launch()
-    page = browser2.newPage()
+    page2 = browser2.newPage()
 
     # Log in to YouTube using environment variables
-    page.goto('https://www.youtube.com/signin', timeout = 30000)
-    page.fill('#identifierId', os.environ['YOUTUBE_USERNAME'])
-    page.click('#identifierNext')
-    page.waitForSelector('input[type="password"]')
-    page.fill('input[type="password"]', os.environ['YOUTUBE_PASSWORD'])
-    page.click('#passwordNext')
+    page2.goto('https://www.youtube.com/signin', timeout = 30000)
+    page2.fill('#identifierId', os.environ['YOUTUBE_USERNAME'])
+    page2.click('#identifierNext')
+    page2.waitForSelector('input[type="password"]')
+    page2.fill('input[type="password"]', os.environ['YOUTUBE_PASSWORD'])
+    page2.click('#passwordNext')
 
     # Upload video to YouTube channel 
-    page.goto('https://www.youtube.com/upload') 
-    page.waitForSelector('.upload-prompt-box input[type="file"]') 
-    fileInput = page.$('.upload-prompt-box input[type="file"]') 
+    page2.goto('https://www.youtube.com/upload') 
+    page2.waitForSelector('.upload-prompt-box input[type="file"]') 
+    fileInput = page2.$('.upload-prompt-box input[type="file"]') 
     fileInput._upload([os.path.abspath("video.mp4")])
