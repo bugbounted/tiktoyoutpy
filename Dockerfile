@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright:focal
+FROM mcr.microsoft.com/playwright/python:v1.29.0-focal
 
 WORKDIR /app
 
@@ -10,20 +10,16 @@ RUN apt-get update \
 
 COPY requirements.txt /app/requirements.txt
 RUN rm -rf /ms-playwright/* \
-    && python3.9 -m playwright install chromium \
+    && python3.9 -m playwright install --with-deps chromium \
     && chmod -Rf 777 /ms-playwright \
     && mv /ms-playwright/chromium-* /ms-playwright/chromium \
     # && mv /ms-playwright/firefox-* /ms-playwright/firefox \
     # && mv /ms-playwright/webkit-* /ms-playwright/webkit \
-    && pip install --no-cache-dir -r requirements.txt
 
 COPY . /app
 
-RUN python3.9 setup.py install
-RUN pip install playwright --upgrade
-RUN pip playwright install-with-deps
-RUN playwright install-deps
 RUN playwright install
 RUN pip install requests
+RUN pip install --no-cache-dir -r requirements.txt
 
 CMD ["python3", "bot.py"]
