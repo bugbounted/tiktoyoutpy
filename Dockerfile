@@ -11,6 +11,6 @@ WORKDIR /app
 RUN pip install --upgrade pip
 RUN pip install playwright
 RUN playwright install
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install requests
 
 CMD ["python3", "bot.py"]
