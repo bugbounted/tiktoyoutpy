@@ -4,7 +4,7 @@ from playwright import sync_playwright
 with sync_playwright() as p:
     browser = p.chromium.launch()
     page = browser.newPage()
-    page.goto('https://proxitok.pabloferreiro.es/tag/gamer')
+    page.goto('https://proxitok.pabloferreiro.es/tag/gamer', timeout = 30000)
 
     # Find the video element and click it to start playing
     video_element = page.querySelector('video')
@@ -29,7 +29,7 @@ password = os.environ['PASSWORD']
 
 
     # Navigate to YouTube 
-    page.goto('https://www.youtube.com/upload')
+    page.goto('https://www.youtube.com/upload', timeout = 30000)
 
     # Log in with gmail and password 
     page.fill('#identifierId', gmail) 
