@@ -1,8 +1,7 @@
 FROM mcr.microsoft.com/playwright/python:v1.29.0-focal
 
-RUN apt update
-RUN sudo apt-get update -y
-RUN sudo apt-get install -y python
+RUN apt install ffmpeg libsm6 libxext6  -y
+RUN apt install python3-pip -y
 
 RUN mkdir /app
 ADD . /app
