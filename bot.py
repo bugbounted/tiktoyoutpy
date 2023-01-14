@@ -23,20 +23,21 @@ with sync_playwright() as p:
         for chunk in r: 
             f.write(chunk)
             
-# Get environment variables for gmail and password
-gmail = os.environ['GMAIL']
-password = os.environ['PASSWORD']
 
+with sync_playwright() as t:
+    browser2 = t.chromium.launch()
+    page = browser2.newPage()
 
-    # Navigate to YouTube 
-    page.goto('https://www.youtube.com/upload', timeout = 30000)
-
-    # Log in with gmail and password 
-    page.fill('#identifierId', gmail) 
-    page.click('#identifierNext') 
-
-    page.fill('input[type="password"]', password) 
+    # Log in to YouTube using environment variables
+    page.goto('https://www.youtube.com/signin', timeout = 30000)
+    page.fill('#identifierId', os.environ['YOUTUBE_USERNAME'])
+    page.click('#identifierNext')
+    page.waitForSelector('input[type="password"]')
+    page.fill('input[type="password"]', os.environ['YOUTUBE_PASSWORD'])
     page.click('#passwordNext')
 
-    # Upload video file named video.mp4 
-    page.uploadFile('./video.mp4')
+    # Upload video to YouTube channel 
+    page.goto('https://www.youtube.com/upload') 
+    page.waitForSelector('.upload-prompt-box input[type="file"]') 
+    fileInput = page.$('.upload-prompt-box input[type="file"]') 
+    fileInput._upload([os.path.abspath("video.mp4")])
