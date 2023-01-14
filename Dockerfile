@@ -1,5 +1,9 @@
 FROM mcr.microsoft.com/playwright/python:v1.29.0-focal
 
+RUN apt update
+RUN sudo apt-get update -y
+RUN sudo apt-get install -y python
+
 RUN mkdir /app
 ADD . /app
 WORKDIR /app
