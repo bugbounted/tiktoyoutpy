@@ -10,9 +10,8 @@ WORKDIR /app
 
 RUN pip install --upgrade pip
 RUN pip install playwright --upgrade
-RUN pip playwright install-with-deps
-RUN playwright install-deps
 RUN playwright install
+RUN playwright install-deps
 RUN pip install requests
 RUN pip install --no-cache-dir -r requirements.txt
 
