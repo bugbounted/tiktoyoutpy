@@ -1,23 +1,18 @@
 FROM mcr.microsoft.com/playwright/python:v1.29.0-focal
 
+RUN apt update
+RUN apt install python3.9-distutils
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN python3.9 get-pip.py --user
+
+RUN mkdir /app
+ADD . /app
 WORKDIR /app
 
-# Install Python
-RUN apt-get update \
-    && apt-get install -y python3.9-dev python3-pip nano \
-    && python3.9 -m pip install --no-cache-dir --upgrade pip \
-    && python3.9 -m pip install --no-cache-dir playwright
-
-COPY requirements.txt /app/requirements.txt
-RUN rm -rf /ms-playwright/* \
-    && python3.9 -m playwright install --with-deps chromium \
-    && chmod -Rf 777 /ms-playwright \
-    && mv /ms-playwright/chromium-* /ms-playwright/chromium \
-    # && mv /ms-playwright/firefox-* /ms-playwright/firefox \
-    # && mv /ms-playwright/webkit-* /ms-playwright/webkit \
-
-COPY . /app
-
+RUN pip install --upgrade pip
+RUN pip install playwright --upgrade
+RUN pip playwright install-with-deps
+RUN playwright install-deps
 RUN playwright install
 RUN pip install requests
 RUN pip install --no-cache-dir -r requirements.txt
