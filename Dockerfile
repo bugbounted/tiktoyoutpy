@@ -2,6 +2,8 @@ FROM mcr.microsoft.com/playwright/python:v1.29.0-focal
 
 ARG PYTHON_VERSION=3.11.1
 
+RUN pip install --upgrade pip
+
 RUN apt-get update && \
     apt-get install -y software-properties-common && \
     add-apt-repository -y ppa:deadsnakes/ppa && \
@@ -14,7 +16,6 @@ RUN mkdir /app
 ADD . /app
 WORKDIR /app
 
-RUN pip install --upgrade pip
 RUN pip install playwright
 RUN playwright install
 RUN playwright install-deps chromium
